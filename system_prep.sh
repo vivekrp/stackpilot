@@ -141,6 +141,8 @@ add_to_path() {
     for profile_file in "${profile_files[@]}"; do
         if [ -f "$profile_file" ]; then
             # Append only if the line does not exist
+            echo ""
+            echo "# Add $path_to_add to PATH" >>"$profile_file"
             grep -qxF "export PATH=\"$path_to_add:\$PATH\"" "$profile_file" || echo "export PATH=\"$path_to_add:\$PATH\"" >>"$profile_file"
         fi
     done
