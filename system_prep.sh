@@ -158,7 +158,7 @@ install_and_update_homebrew() {
     local linux_brew_path="/home/linuxbrew/.linuxbrew/bin"
 
     # Check if we are running on macOS or a supported Linux distribution with glibc
-    if [[ "$OS" == "darwin" ]]; then
+    if [[ "$OS" == "macOS" ]]; then
         if [[ -d "/opt/homebrew" ]]; then
             brew_path=$new_macos_brew_path
         elif [[ -d "/usr/local/Homebrew" ]]; then
@@ -178,7 +178,7 @@ install_and_update_homebrew() {
         echo "Installing Homebrew/Linuxbrew..."
         yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         # After installation, set the brew_path according to the OS
-        if [[ "$OS" == "darwin" ]]; then
+        if [[ "$OS" == "macOS" ]]; then
             brew_path=$new_macos_brew_path
         else
             brew_path=$linux_brew_path
