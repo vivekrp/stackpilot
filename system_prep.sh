@@ -172,7 +172,7 @@ install_and_update_homebrew() {
         echo "Homebrew/Linuxbrew installation complete."
     fi
 
-    eval "$($brew_path shellenv)"
+    eval "$($brew_path/brew shellenv)"
     # Add Homebrew to the PATH for the current session
     export PATH="$brew_path:$PATH"
 
