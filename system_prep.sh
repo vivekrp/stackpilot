@@ -199,6 +199,8 @@ install_and_update_homebrew # Call the function to install and update Homebrew
 # Install GitHub CLI (gh) using the package manager
 brew install gh
 
+echo "Github CLI installed successfully. Version:" && gh --version
+
 # Install Doppler CLI
 install_doppler_cli() {
     echo "Installing Doppler CLI..."
