@@ -5,6 +5,7 @@ OS=""
 SYSTEM_PACKAGE_MANAGER=""
 
 # Common packages to install
+# shellcheck disable=SC2034
 COMMON_PACKAGES=(gnupg curl git unzip wget)
 
 # Function to detect and export the OS and the system package manager based on the OS.
