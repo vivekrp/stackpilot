@@ -194,16 +194,13 @@ install_and_update_homebrew() {
 
     # Check if Homebrew commands are available after updating the PATH
     if command -v brew >/dev/null 2>&1; then
-        # Install Homebrew dependencies if you have sudo access
-        if [[ -n "$SUDO" ]]; then
-            $SUDO apt-get install build-essential
-        fi
-
         # Update and upgrade Homebrew/Linuxbrew after installation
         brew update && brew upgrade
 
-        # Recommend installing GCC
-        brew install gcc
+        if [[ "$OS" != "macOS" ]]; then
+            # Recommend installing GCC for non-macOS systems
+            brew install gcc
+        fi
 
     else
         echo "Failed to find Homebrew commands after installation."
