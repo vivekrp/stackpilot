@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Starting StackPilot... Version 0.1.0"
+
 # Prevent storing sensitive commands in bash history
 export HISTIGNORE='doppler*:gh auth*'
 
