@@ -336,7 +336,7 @@ else
 fi
 
 # Run the configure_shell function
-configure_shell
+# configure_shell
 
 # end function
 end
