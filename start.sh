@@ -192,6 +192,21 @@ check_required_args() {
   fi
 }
 
+# Function to add a path to the appropriate profile files
+add_to_path() {
+  local path_to_add="$1"
+  local profile_files=("$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc")
+
+  for profile_file in "${profile_files[@]}"; do
+    if [ -f "$profile_file" ]; then
+      # Append only if the line does not exist
+      echo ""
+      echo "# Add $path_to_add to PATH" >>"$profile_file"
+      grep -qxF "export PATH=\"$path_to_add:\$PATH\"" "$profile_file" || echo "export PATH=\"$path_to_add:\$PATH\"" >>"$profile_file"
+    fi
+  done
+}
+
 # Function to execute the system_prep.sh script.
 system_prep() {
   curl -sL https://raw.githubusercontent.com/vivekrp/stackpilot/main/system_prep.sh | bash
@@ -297,7 +312,7 @@ configure_shell() {
 }
 
 # Export the functions to the current shell session for use in other shell scripts and functions.
-export -f system_prep auth_config install_bun install_node install_python end
+export -f system_prep auth_config add_to_path install_bun install_node install_python end
 
 # Call the functions
 parse_arguments "$@"

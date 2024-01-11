@@ -132,22 +132,7 @@ install_update_system_common_packages() {
         ;;
     esac
 }
-install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function
-
-# Function to add a path to the appropriate profile files
-add_to_path() {
-    local path_to_add="$1"
-    local profile_files=("$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc")
-
-    for profile_file in "${profile_files[@]}"; do
-        if [ -f "$profile_file" ]; then
-            # Append only if the line does not exist
-            echo ""
-            echo "# Add $path_to_add to PATH" >>"$profile_file"
-            grep -qxF "export PATH=\"$path_to_add:\$PATH\"" "$profile_file" || echo "export PATH=\"$path_to_add:\$PATH\"" >>"$profile_file"
-        fi
-    done
-}
+install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function to install common packages
 
 # Function to install and update Homebrew
 install_and_update_homebrew() {
