@@ -131,7 +131,7 @@ install_update_system_common_packages() {
         ;;
     esac
 }
-install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@]} # Call the function
+install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function
 
 # Function to add a path to the appropriate profile files
 add_to_path() {
