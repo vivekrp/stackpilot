@@ -223,8 +223,6 @@ auth_config() {
   export DOPPLER_TOKEN="$DOPPLER_TOKEN"
   export DOPPLER_PROJECT="$DOPPLER_PROJECT"
   export DOPPLER_CONFIG="$DOPPLER_CONFIG"
-  # Ensure the PATH includes the location of the GitHub CLI
-  export PATH="$(brew --prefix)/bin:$PATH"
   curl -sL https://raw.githubusercontent.com/vivekrp/stackpilot/main/auth_config.sh | bash
 }
 
@@ -327,7 +325,6 @@ check_required_args "$@"
 # By default, execute the system_prep function. If --no-system-prep is provided, skip it.
 if [ "$SYSTEM_PREP" == "true" ]; then
   system_prep
-  configure_shell
 elif [ "$SYSTEM_PREP" == "false" ]; then
   echo "Skipping system_prep function as per the environment variable."
 else

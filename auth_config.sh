@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# Inside auth_config.sh
+for profile_file in "$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc"; do
+    if [ -f "$profile_file" ]; then
+        # shellcheck disable=SC1090
+        source "$profile_file"
+    fi
+done
+# Rest of the auth_config.sh script...
+
 # Prevent storing sensitive commands in bash history
 export HISTIGNORE='doppler*:gh auth*'
 
