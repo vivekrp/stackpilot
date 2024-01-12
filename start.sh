@@ -296,16 +296,6 @@ else
   exit 1
 fi
 
-# By default, execute the auth_config function. If --no-auth-config is provided, skip it.
-if [ "$AUTH_CONFIG" == "true" ]; then
-  auth_config
-elif [ "$AUTH_CONFIG" == "false" ]; then
-  echo "Skipping auth_config function as per the environment variable."
-else
-  echo "No valid auth_config environment variable provided. Set AUTH_CONFIG to 'yes' to execute auth_config or 'no' to skip it."
-  exit 1
-fi
-
 # Detect the stack & call the appropriate function
 if [ "$STACK" == "bun" ]; then
   install_bun
@@ -315,6 +305,16 @@ elif [ "$STACK" == "python" ]; then
   install_python
 else
   echo "No valid stack detected. Set STACK to 'bun', 'node', or 'python' to execute the appropriate function."
+  exit 1
+fi
+
+# By default, execute the auth_config function. If --no-auth-config is provided, skip it.
+if [ "$AUTH_CONFIG" == "true" ]; then
+  auth_config
+elif [ "$AUTH_CONFIG" == "false" ]; then
+  echo "Skipping auth_config function as per the environment variable."
+else
+  echo "No valid auth_config environment variable provided. Set AUTH_CONFIG to 'yes' to execute auth_config or 'no' to skip it."
   exit 1
 fi
 
