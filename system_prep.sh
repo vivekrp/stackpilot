@@ -53,14 +53,15 @@ detect_and_export_environment() {
     echo "Detected Operating System: $OS"
     echo "Using Package Manager: $SYSTEM_PACKAGE_MANAGER"
 }
-detect_and_export_environment # Call the function
 
-# Check if sudo is available and required (i.e., not running as root)
-if command -v sudo &>/dev/null && [ "$(id -u)" -ne 0 ]; then
-    SUDO="sudo"
-else
-    SUDO=""
-fi
+check_sudo_requirement() {
+    # Check if sudo is available and required (i.e., not running as root)
+    if command -v sudo &>/dev/null && [ "$(id -u)" -ne 0 ]; then
+        SUDO="sudo"
+    else
+        SUDO=""
+    fi
+}
 
 # Function to update, upgrade system packages and then install common packages
 install_update_system_common_packages() {
@@ -135,7 +136,6 @@ install_update_system_common_packages() {
         ;;
     esac
 }
-install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function to install common packages
 
 # Function to install and update Homebrew
 install_and_update_homebrew() {
@@ -197,26 +197,49 @@ install_and_update_homebrew() {
         exit 1
     fi
 }
-install_and_update_homebrew # Call the function to install and update Homebrew
 
-# Install GitHub CLI (gh) using the package manager
-brew install gh
-
-echo "Github CLI installed successfully. Version:" && gh --version
-
-# Install Doppler CLI
-install_doppler_cli() {
-    echo "Installing Doppler CLI..."
-    (curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh || wget -t 3 -qO- https://cli.doppler.com/install.sh) | $SUDO sh
-
-    # Check if installation was successful
-    if [ -x "$(command -v doppler)" ]; then
-        echo "Doppler CLI installed successfully."
+# Function to install GitHub CLI (gh)
+install_github_cli() {
+    if command -v gh >/dev/null 2>&1; then
+        echo "GitHub CLI is already installed. Version:" && gh --version
     else
-        echo "Doppler CLI installation failed."
-        exit 1
+        echo "Installing GitHub CLI..."
+        if brew install gh; then
+            echo "GitHub CLI installed successfully. Version:" && gh --version
+        else
+            echo "Failed to install GitHub CLI."
+            exit 1
+        fi
     fi
 }
+
+# Function to install Doppler CLI
+install_doppler_cli() {
+    if command -v doppler >/dev/null 2>&1; then
+        echo "Doppler CLI is already installed."
+        return
+    fi
+    if [[ "$OS" == "macOS" ]]; then
+        # Install Doppler CLI using Homebrew
+        echo "Installing Doppler CLI using Homebrew..."
+        brew install doppler
+    else
+        # Install Doppler CLI using the install script
+        echo "Installing Doppler CLI using the install script..."
+        if (curl -Ls --tlsv1.2 --proto "=https" --retry 3 https://cli.doppler.com/install.sh || wget -t 3 -qO- https://cli.doppler.com/install.sh) | $SUDO sh; then
+            echo "Doppler CLI installed successfully."
+        else
+            echo "Doppler CLI installation failed."
+            exit 1
+        fi
+    fi
+}
+
+detect_and_export_environment
+check_sudo_requirement
+install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function to install common packages
+install_and_update_homebrew
+install_github_cli
 install_doppler_cli
 
 echo "Please run 'source ~/.bashrc' on Linux or 'source ~/.zshrc' on macOS to update your PATH."
