@@ -211,6 +211,16 @@ add_to_path() {
   done
 }
 
+# Function to source profile files
+source_profiles() {
+  for profile_file in "$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc"; do
+    if [ -f "$profile_file" ]; then
+      # shellcheck disable=SC1090
+      source "$profile_file"
+    fi
+  done
+}
+
 # Function to execute the system_prep.sh script.
 system_prep() {
   curl -sL https://raw.githubusercontent.com/vivekrp/stackpilot/main/system_prep.sh | bash
@@ -316,7 +326,7 @@ configure_shell() {
 }
 
 # Export the functions to the current shell session for use in other shell scripts and functions.
-export -f system_prep auth_config add_to_path install_bun install_node install_python end
+export -f add_to_path source_profiles system_prep auth_config  install_bun install_node install_python end
 
 # Call the functions
 parse_arguments "$@"

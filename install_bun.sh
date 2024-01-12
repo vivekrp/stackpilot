@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Call the function to source profile files
+source_profiles
+
 # Initialize variables with default values
 BUN_VERSION="${BUN_VERSION:-latest}" # Use environment variable or default to the latest version
 
@@ -29,9 +32,6 @@ install_bun() {
         # Install the specified version of Bun
         curl -fsSL https://bun.sh/install | bash -s -- "$BUN_VERSION"
     fi
-
-    # Add Bun to the PATH for future sessions
-    add_to_path "$bun_path"
 
     # Add Bun to the PATH for the current session
     export PATH="$bun_path:$PATH"

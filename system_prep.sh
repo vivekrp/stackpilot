@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Call the function to source profile files
+source_profiles
+
 # Declare global variables
 OS=""
 SYSTEM_PACKAGE_MANAGER=""
