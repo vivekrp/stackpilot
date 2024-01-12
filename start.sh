@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting StackPilot... Version 0.1.0"
+echo "Starting StackPilot... Version 0.1.4"
 
 # Prevent storing sensitive commands in bash history
 export HISTIGNORE='doppler*:gh auth*'
@@ -224,7 +224,8 @@ add_to_path() {
 
 # Function to source profile files
 source_profiles() {
-  for profile_file in "$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc"; do
+  local profile_files=("$HOME/.bash_profile" "$HOME/.bashrc" "$HOME/.profile" "$HOME/.zshrc")
+  for profile_file in "${profile_files[@]}"; do
     if [ -f "$profile_file" ]; then
       # shellcheck disable=SC1090
       source "$profile_file"
@@ -283,11 +284,6 @@ check_required_args "$@"
 # By default don't execute the download_reload_shell_script function, only execute it if --reload argument is provided
 if [ "$RELOAD" == "true" ]; then
   download_reload_shell_script
-elif [ "$RELOAD" == "false" ]; then
-  echo "Skipping download_reload_shell_script function as per the environment variable."
-else
-  echo "No valid RELOAD environment variable provided. Set RELOAD to 'yes' to execute download_reload_shell_script or 'no' to skip it."
-  exit 1
 fi
 
 # By default, execute the system_prep function. If --no-system-prep is provided, skip it.

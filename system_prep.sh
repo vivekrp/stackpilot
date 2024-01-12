@@ -235,6 +235,8 @@ install_doppler_cli() {
     fi
 }
 
+export -f detect_and_export_environment check_sudo_requirement install_update_system_common_packages install_and_update_homebrew install_github_cli install_doppler_cli
+
 detect_and_export_environment
 check_sudo_requirement
 install_update_system_common_packages "$SYSTEM_PACKAGE_MANAGER" COMMON_PACKAGES[@] # Call the function to install common packages
