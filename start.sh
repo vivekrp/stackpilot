@@ -20,6 +20,10 @@ NODE_VERSION=""
 BUN_VERSION=""
 PYTHON_VERSION=""
 
+if ! curl -o reload_shell.sh https://raw.githubusercontent.com/vivekrp/stackpilot/main/reload_shell.sh; then
+  wget -O reload_shell.sh https://raw.githubusercontent.com/vivekrp/stackpilot/main/reload_shell.sh
+fi
+
 # All functions are defined below.
 
 # Function to display usage instructions and exit. This function is called when the user provides invalid arguments or when the user provides the --help flag or the -h flag.
@@ -326,7 +330,7 @@ configure_shell() {
 }
 
 # Export the functions to the current shell session for use in other shell scripts and functions.
-export -f add_to_path source_profiles system_prep auth_config  install_bun install_node install_python end
+export -f add_to_path source_profiles system_prep auth_config install_bun install_node install_python end
 
 # Call the functions
 parse_arguments "$@"
